@@ -390,6 +390,8 @@ public class MainActivity extends BaseActivity implements DataInfoShowCallback {
                 mLocalMusicListBT.setVisibility(View.GONE);
                 mReversalCamera.setVisibility(View.GONE);
                 break;
+            default:
+                break;
         }
 
         if (LocalConfig.mCurrentAudioRoute != Constants.AUDIO_ROUTE_SPEAKER) {
@@ -785,6 +787,8 @@ public class MainActivity extends BaseActivity implements DataInfoShowCallback {
                                 }
                             }
                         }
+                        break;
+                    default:
                         break;
                 }
             }

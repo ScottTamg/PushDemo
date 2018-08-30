@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.tttpush.jpushdemo.bean.JniObjs;
 import com.tttpush.jpushdemo.bean.PermissionBean;
 import com.tttpush.jpushdemo.callback.MyTTTRtcEngineEventHandler;
 import com.tttpush.jpushdemo.dialog.VideoInfoDialog;
+import com.tttpush.jpushdemo.jpush.ExampleUtil;
 import com.tttpush.jpushdemo.test.TestUtils;
 import com.tttpush.jpushdemo.utils.MyLog;
 import com.tttpush.jpushdemo.utils.PermissionUtils;
@@ -56,6 +58,7 @@ public class SplashActivity extends BaseActivity {
 
     public static final int VIDEO_MODE = 1;
     public static final int AUDIO_MODE = 2;
+    public static boolean isForeground = false;
 
     private int mRole = -1;
     private ProgressDialog mDialog;
@@ -108,6 +111,8 @@ public class SplashActivity extends BaseActivity {
         }
 
         initTestCode();
+
+        registerMessageReceiver();
     }
 
     private void init() {
@@ -151,8 +156,21 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        isForeground = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isForeground = false;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         MyLog.d("SplashActivity onDestroy....");
         TTTRtcEngine.destroy();
         try {
@@ -182,9 +200,15 @@ public class SplashActivity extends BaseActivity {
                 mRole = CLIENT_ROLE_AUDIENCE;
                 findViewById(R.id.set).setVisibility(View.INVISIBLE);
                 break;
+            default:
+                break;
         }
     }
 
+    public void enterRoom(String roomId) {
+        mRoomIDET.setText(roomId);
+        onClickEnterButton(null);
+    }
 
     public void onClickEnterButton(View v) {
         boolean checkResult = mTTTRtcEngineHelper.splashCheckSetting(this, mRoomIDET.getText().toString());
@@ -324,8 +348,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void onClickModeButton(View v) {
-        ((RadioButton)findViewById(R.id.videolink)).setChecked(false);
-        ((RadioButton)findViewById(R.id.audiolink)).setChecked(false);
+        ((RadioButton) findViewById(R.id.videolink)).setChecked(false);
+        ((RadioButton) findViewById(R.id.audiolink)).setChecked(false);
         ((RadioButton) v).setChecked(true);
         final MainApplication application = (MainApplication) getApplication();
         switch (v.getId()) {
@@ -358,4 +382,40 @@ public class SplashActivity extends BaseActivity {
         TestUtils.mTestDialog.show();
     }
     // -----以上为SDK测试代码，无需关注-----
+
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                    String messge = intent.getStringExtra(KEY_MESSAGE);
+                    String extras = intent.getStringExtra(KEY_EXTRAS);
+                    StringBuilder showMsg = new StringBuilder();
+                    showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                    if (!ExampleUtil.isEmpty(extras)) {
+                        showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                    }
+//                    setCostomMsg(showMsg.toString());
+                    enterRoom(messge);
+                }
+            } catch (Exception e){
+            }
+        }
+    }
 }
