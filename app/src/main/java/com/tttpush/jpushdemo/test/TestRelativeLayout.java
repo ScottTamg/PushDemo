@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tttpush.jpushdemo.R;
+import com.tttpush.JPushDemo.R;
 
 
 /**

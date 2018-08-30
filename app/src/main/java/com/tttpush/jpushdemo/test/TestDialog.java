@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.LocalConfig;
-import com.tttpush.jpushdemo.R;
 import com.tttpush.jpushdemo.utils.SharedPreferencesUtil;
 
 

@@ -25,11 +25,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.Helper.TTTRtcEngineHelper;
 import com.tttpush.jpushdemo.LocalConfig;
 import com.tttpush.jpushdemo.LocalConstans;
 import com.tttpush.jpushdemo.MainApplication;
-import com.tttpush.jpushdemo.R;
 import com.tttpush.jpushdemo.bean.DisplayDevice;
 import com.tttpush.jpushdemo.bean.EnterUserInfo;
 import com.tttpush.jpushdemo.bean.JniObjs;

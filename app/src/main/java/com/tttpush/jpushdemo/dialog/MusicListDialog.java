@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tttpush.jpushdemo.R;
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.bean.Song;
 import com.tttpush.jpushdemo.utils.MusicUtils;
 

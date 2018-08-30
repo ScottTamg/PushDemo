@@ -19,11 +19,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.Helper.TTTRtcEngineHelper;
 import com.tttpush.jpushdemo.LocalConfig;
 import com.tttpush.jpushdemo.LocalConstans;
 import com.tttpush.jpushdemo.MainApplication;
-import com.tttpush.jpushdemo.R;
 import com.tttpush.jpushdemo.bean.JniObjs;
 import com.tttpush.jpushdemo.bean.PermissionBean;
 import com.tttpush.jpushdemo.callback.MyTTTRtcEngineEventHandler;

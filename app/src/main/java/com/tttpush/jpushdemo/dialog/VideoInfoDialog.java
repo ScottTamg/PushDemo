@@ -7,7 +7,7 @@ import android.support.annotation.StyleRes;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.tttpush.jpushdemo.R;
+import com.tttpush.JPushDemo.R;
 
 
 /**

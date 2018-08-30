@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.Helper.TTTRtcEngineHelper;
 import com.tttpush.jpushdemo.LocalConfig;
-import com.tttpush.jpushdemo.R;
 import com.tttpush.jpushdemo.bean.EnterUserInfo;
 import com.tttpush.jpushdemo.ui.MainActivity;
 import com.tttpush.jpushdemo.ui.SplashActivity;

@@ -7,6 +7,8 @@ import com.wushuangtech.wstechapi.TTTRtcEngine;
 
 import java.util.Random;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainApplication extends Application {
 
     public MyTTTRtcEngineEventHandler mMyTTTRtcEngineEventHandler;
@@ -28,6 +30,13 @@ public class MainApplication extends Application {
             System.exit(0);
         }
 
+        initJPush();
+
+    }
+
+    private void initJPush() {
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     public void setAppID(String mAppID) {

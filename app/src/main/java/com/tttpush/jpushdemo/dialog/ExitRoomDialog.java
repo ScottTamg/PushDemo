@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.view.View;
 
-import com.tttpush.jpushdemo.R;
+import com.tttpush.JPushDemo.R;
 
 
 /**

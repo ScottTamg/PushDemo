@@ -17,8 +17,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.LocalConfig;
-import com.tttpush.jpushdemo.R;
 import com.tttpush.jpushdemo.bean.DisplayDevice;
 import com.tttpush.jpushdemo.bean.EnterUserInfo;
 import com.tttpush.jpushdemo.bean.VideoViewObj;
