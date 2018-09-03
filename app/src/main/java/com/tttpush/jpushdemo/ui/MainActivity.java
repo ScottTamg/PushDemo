@@ -39,6 +39,7 @@ import com.tttpush.jpushdemo.callback.MyTTTRtcEngineEventHandler;
 import com.tttpush.jpushdemo.callback.PhoneListener;
 import com.tttpush.jpushdemo.dialog.DataInfoShowCallback;
 import com.tttpush.jpushdemo.dialog.ExitRoomDialog;
+import com.tttpush.jpushdemo.dialog.InvitationDialog;
 import com.tttpush.jpushdemo.dialog.MoreInfoDialog;
 import com.tttpush.jpushdemo.dialog.MusicListDialog;
 import com.tttpush.jpushdemo.test.TestInterfaceListAdapter;
@@ -271,7 +272,9 @@ public class MainActivity extends BaseActivity implements DataInfoShowCallback {
             }
         });
 
-        findViewById(R.id.main_btn_send).setOnClickListener(v -> JMessageManager.sendJoinRoomMessage());
+        findViewById(R.id.main_btn_send).setOnClickListener(v -> {
+            new InvitationDialog(mContext, R.style.NoBackGroundDialog).show();
+        });
     }
 
     public void setTextViewContent(TextView textView, int resourceID, String value) {

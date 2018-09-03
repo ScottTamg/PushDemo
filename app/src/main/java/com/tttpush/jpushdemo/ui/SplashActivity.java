@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -157,6 +159,8 @@ public class SplashActivity extends BaseActivity {
         mAudienceBT = findViewById(R.id.audience);
         mRoomIDET = findViewById(R.id.room_id);
         mHostBT = findViewById(R.id.host);
+        TextView userId = findViewById(R.id.user_id_text);
+        userId.setText(getString(R.string.user_id) + " " + LocalConfig.mLoginUserID);
         TextView mVersion = findViewById(R.id.version);
         String string = getResources().getString(R.string.version_info);
         String result = String.format(string, TTTRtcEngine.getInstance().getVersion());
@@ -199,7 +203,7 @@ public class SplashActivity extends BaseActivity {
         mAuthorBT.setChecked(false);
         mAudienceBT.setChecked(false);
 
-        JMessageManager.sendMessage();
+//        JMessageManager.sendMessage();
 
         ((RadioButton) v).setChecked(true);
         switch (v.getId()) {
@@ -438,7 +442,7 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    public void onEvent(MessageEvent event) {
+    public void onEventMainThread(MessageEvent event) {
         Message msg = event.getMessage();
         Log.e("JMessage", "msg " + msg.getContent().toJson());
         switch (msg.getContentType()) {
@@ -447,6 +451,14 @@ public class SplashActivity extends BaseActivity {
             case image:
                 break;
             case custom:
+                Log.e("JMessage", "join room " + msg.getContent().toJson());
+                mRole = CLIENT_ROLE_BROADCASTER;
+                mHostBT.setChecked(false);
+                mAuthorBT.setChecked(true);
+                mAudienceBT.setChecked(false);
+                CustomContent customContent = (CustomContent) msg.getContent();
+                String id = customContent.getStringValue("roomId");
+                enterRoom(id);
                 break;
             default:
                 break;
@@ -462,6 +474,9 @@ public class SplashActivity extends BaseActivity {
                 if (message.getContent().getContentType() == ContentType.custom) {
                     Log.e("JMessage chatRoom", "join room " + message.getContent().toJson());
                     mRole = CLIENT_ROLE_BROADCASTER;
+                    mHostBT.setChecked(false);
+                    mAuthorBT.setChecked(true);
+                    mAudienceBT.setChecked(false);
                     CustomContent customContent = (CustomContent) message.getContent();
                     String id = customContent.getStringValue("roomId");
                     enterRoom(id);

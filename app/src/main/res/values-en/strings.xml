@@ -54,4 +54,7 @@
     <string name="sp_videoinfo_resolution">Resolution</string>
     <string name="sp_videoinfo_rate">Frame Rate</string>
     <string name="sp_videoinfo_codingformat">Coding Format</string>
+
+    <string name="user_id">User ID:</string>
+    <string name="invitation_user_id">Please input inviter ID</string>
 </resources>

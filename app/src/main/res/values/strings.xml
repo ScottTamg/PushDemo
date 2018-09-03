@@ -54,4 +54,7 @@
     <string name="sp_videoinfo_resolution">分辨率</string>
     <string name="sp_videoinfo_rate">帧率</string>
     <string name="sp_videoinfo_codingformat">编码格式</string>
+
+    <string name="user_id">用户ID:</string>
+    <string name="invitation_user_id">请输入邀请人ID</string>
 </resources>

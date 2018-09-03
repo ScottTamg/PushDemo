@@ -65,6 +65,19 @@
 		app:layout_constraintStart_toStartOf="@+id/videolink"
 		app:layout_constraintTop_toBottomOf="@+id/videolink" />
 
+	<TextView
+		android:id="@+id/user_id_text"
+		android:layout_width="wrap_content"
+		android:layout_height="33dp"
+		android:layout_marginTop="18dp"
+		android:gravity="right|center_vertical"
+		android:singleLine="true"
+		android:text="@string/user_id"
+		android:textColor="#FFFFFF"
+		android:textSize="15sp"
+		app:layout_constraintStart_toStartOf="@+id/room_id_text"
+		app:layout_constraintTop_toBottomOf="@+id/room_id_text" />
+
 	<EditText
 		android:id="@+id/room_id"
 		android:layout_width="205dp"

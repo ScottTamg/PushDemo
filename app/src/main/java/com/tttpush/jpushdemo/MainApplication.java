@@ -1,6 +1,8 @@
 package com.tttpush.jpushdemo;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import com.tttpush.jpushdemo.callback.MyTTTRtcEngineEventHandler;
 import com.wushuangtech.wstechapi.TTTRtcEngine;
@@ -39,6 +41,24 @@ public class MainApplication extends Application {
         JMessageClient.setDebugMode(true);
         JMessageClient.init(this);
         JMessageManager.register();
+        getJpushAppkey();
+    }
+
+    /**
+     * 获取JPUSH_APPKEY
+     * @return
+     */
+    private void getJpushAppkey() {
+        String jpush_appkey = null;
+        try {
+            ApplicationInfo applicationInfo =
+                    this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            jpush_appkey = applicationInfo.metaData.getString("JPUSH_APPKEY");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        LocalConfig.JPUSH_APPKEY = jpush_appkey;
     }
 
     private void initJPush() {
