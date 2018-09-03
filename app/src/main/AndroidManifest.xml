@@ -41,6 +41,7 @@
     <uses-permission android:name="com.tttpush.JPushDemo.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -110,6 +111,7 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
             android:exported="false"
             android:process=":mult">
             <intent-filter>
@@ -198,6 +200,19 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="04bc90849ac1838b739d45b0" /> <!--  </>值来自开发者平台取得的AppKey-->
+
+        <!-- Required since JMessage 2.7.0 SDK 核心功能-->
+        <provider
+            android:name="cn.jpush.im.android.helpers.ipc.IMProvider"
+            android:authorities="com.tttpush.JPushDemo.IMProvider"
+            android:exported="false" />
+
+        <!-- Required JMessage SDK核心功能-->
+        <receiver
+            android:name="cn.jpush.im.android.helpers.IMReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
 
     </application>
 

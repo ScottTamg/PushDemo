@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.Helper.TTTRtcEngineHelper;
+import com.tttpush.jpushdemo.JMessageManager;
 import com.tttpush.jpushdemo.LocalConfig;
 import com.tttpush.jpushdemo.LocalConstans;
 import com.tttpush.jpushdemo.MainApplication;
@@ -269,6 +270,8 @@ public class MainActivity extends BaseActivity implements DataInfoShowCallback {
                 mIsMute = true;
             }
         });
+
+        findViewById(R.id.main_btn_send).setOnClickListener(v -> JMessageManager.sendJoinRoomMessage());
     }
 
     public void setTextViewContent(TextView textView, int resourceID, String value) {

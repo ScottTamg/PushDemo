@@ -8,6 +8,7 @@ import com.wushuangtech.wstechapi.TTTRtcEngine;
 import java.util.Random;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 
 public class MainApplication extends Application {
 
@@ -31,7 +32,13 @@ public class MainApplication extends Application {
         }
 
         initJPush();
+        initJMessage();
+    }
 
+    private void initJMessage() {
+        JMessageClient.setDebugMode(true);
+        JMessageClient.init(this);
+        JMessageManager.register();
     }
 
     private void initJPush() {

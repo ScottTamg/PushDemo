@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.tttpush.JPushDemo.R;
 import com.tttpush.jpushdemo.Helper.TTTRtcEngineHelper;
+import com.tttpush.jpushdemo.JMessageManager;
 import com.tttpush.jpushdemo.LocalConfig;
 import com.tttpush.jpushdemo.LocalConstans;
 import com.tttpush.jpushdemo.MainApplication;
@@ -42,6 +44,13 @@ import com.wushuangtech.wstechapi.TTTRtcEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.CustomContent;
+import cn.jpush.im.android.api.enums.ContentType;
+import cn.jpush.im.android.api.event.ChatRoomMessageEvent;
+import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.Message;
 
 import static com.tttpush.jpushdemo.LocalConfig.mLoginRoomID;
 import static com.tttpush.jpushdemo.LocalConfig.mPullUrlPrefix;
@@ -113,6 +122,9 @@ public class SplashActivity extends BaseActivity {
         initTestCode();
 
         registerMessageReceiver();
+        //这里只是为了展示注册事件接受者接口的用法，实际上开发者可以在任意类中注册事件接收者
+        //，而不仅仅在Activity中。 下同
+        JMessageClient.registerEventReceiver(this);
     }
 
     private void init() {
@@ -170,6 +182,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         MyLog.d("SplashActivity onDestroy....");
         TTTRtcEngine.destroy();
@@ -185,6 +198,8 @@ public class SplashActivity extends BaseActivity {
         mHostBT.setChecked(false);
         mAuthorBT.setChecked(false);
         mAudienceBT.setChecked(false);
+
+        JMessageManager.sendMessage();
 
         ((RadioButton) v).setChecked(true);
         switch (v.getId()) {
@@ -331,6 +346,8 @@ public class SplashActivity extends BaseActivity {
                             }
                         });
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -360,6 +377,8 @@ public class SplashActivity extends BaseActivity {
             case R.id.videolink:
                 LocalConfig.mRoomMode = VIDEO_MODE;
                 application.setAppID("a967ac491e3acf92eed5e1b5ba641ab7");
+                break;
+            default:
                 break;
         }
     }
@@ -414,8 +433,45 @@ public class SplashActivity extends BaseActivity {
 //                    setCostomMsg(showMsg.toString());
                     enterRoom(messge);
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
             }
+        }
+    }
+
+    public void onEvent(MessageEvent event) {
+        Message msg = event.getMessage();
+        Log.e("JMessage", "msg " + msg.getContent().toJson());
+        switch (msg.getContentType()) {
+            case text:
+                break;
+            case image:
+                break;
+            case custom:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onEventMainThread(ChatRoomMessageEvent event) {
+        List<Message> msgs = event.getMessages();
+        int size = msgs.size();
+        if (size > 0) {
+            StringBuffer sb = new StringBuffer("聊天室消息 : \n");
+            for (Message message : msgs) {
+                if (message.getContent().getContentType() == ContentType.custom) {
+                    Log.e("JMessage chatRoom", "join room " + message.getContent().toJson());
+                    mRole = CLIENT_ROLE_BROADCASTER;
+                    CustomContent customContent = (CustomContent) message.getContent();
+                    String id = customContent.getStringValue("roomId");
+                    enterRoom(id);
+                    break;
+                }
+                sb.append(message.getContent().toJson());
+                sb.append("\n");
+            }
+            Log.e("JMessage chatRoom", sb.toString());
+//            mRoomIDET.setText(sb.toString());
         }
     }
 }
